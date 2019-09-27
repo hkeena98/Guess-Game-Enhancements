@@ -72,6 +72,8 @@ public class PlayerServices {
     GuessResult result = game.makeGuess(guess);
     if (game.isFinished()) {
         gameCenter.gameFinished();
+    }if (game.isWon()){
+      gameCenter.gameWon();
     }
     return result;
   }
