@@ -12,8 +12,10 @@
       <h2>Application Stats</h2>
       <p>
         ${gameStatsMessage}
+        <br/><br/>
+        ${sessionStatsMessage}
       </p>
-      
+
       <#if newPlayer>
         <p>
           <a href="/game">Want to play a game?!?</a>

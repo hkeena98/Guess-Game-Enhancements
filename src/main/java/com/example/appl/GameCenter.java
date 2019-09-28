@@ -31,6 +31,7 @@ public class GameCenter {
 
   private int totalGames = 0;
   private int gamesWon = 0;
+  private PlayerServices playerServices;
 
   //
   // Constructors
@@ -49,7 +50,13 @@ public class GameCenter {
    */
   public PlayerServices newPlayerServices() {
     LOG.fine("New player services instance created.");
-    return new PlayerServices(this);
+    playerServices = new PlayerServices(this);
+    return playerServices;
+  }
+
+  //gets the playerService
+  public PlayerServices getPlayerServices(){
+    return playerServices;
   }
 
   /**
