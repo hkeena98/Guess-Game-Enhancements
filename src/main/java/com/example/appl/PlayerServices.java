@@ -17,13 +17,15 @@ public class PlayerServices {
   //
   // Constants
   //
-
+  final static String NO_GAME_STATS= "No game stats yet";
   final static String NO_WINS_MESSAGE = "You have not won a game, yet. But I *feel* your luck changing.";
   final static String GAMES_PLAYED_FORMAT = "You have won an average of %.1f%% of this session's %d game.";
 
   //
   // Attributes
   //
+  private int playerSessionGamesPlayed = 0;
+  private int playerSessionGamesWon = 0;
 
   // This player's game. There is only one game at a time allowed.
   private GuessGame game;
@@ -47,9 +49,9 @@ public class PlayerServices {
    * @return GuessGame
    *    the current game being played
    */
-  public synchronized GuessGame currentGame() {
+  public synchronized GuessGame currentGame(int x) {
     if(game == null) {
-      game = gameCenter.getGame();
+      game = gameCenter.getGame(x);
     }
     return game;
   }
@@ -71,9 +73,11 @@ public class PlayerServices {
   public synchronized GuessResult makeGuess(int guess) {
     GuessResult result = game.makeGuess(guess);
     if (game.isFinished()) {
+        playerSessionGamesPlayed++;
         gameCenter.gameFinished();
     }if (game.isWon()){
-      gameCenter.gameWon();
+        playerSessionGamesWon++;
+        gameCenter.gameWon();
     }
     return result;
   }
@@ -111,6 +115,36 @@ public class PlayerServices {
    */
   public int guessesLeft() {
     return game.guessesLeft();
+  }
+
+  public int gameDifficulty()
+  {
+    return game.gameDifficulty();
+  }
+
+  public int gameBound()
+  {
+    return game.gameBound();
+  }
+
+
+  public void setGame(int x)
+  {
+    game = new GuessGame(x);
+  }
+
+  public synchronized String getSessionStatsMessage() {
+      if (playerSessionGamesWon > 0) {
+          float playerGamesWon = (float)playerSessionGamesWon;
+          float playerGames  = (float)playerSessionGamesPlayed;
+          float percent = playerGamesWon/playerGames;
+          percent = percent * 100;
+          return String.format(GAMES_PLAYED_FORMAT, percent, playerSessionGamesPlayed);
+      } else if (playerSessionGamesPlayed == 0) {
+          return NO_GAME_STATS;
+      } else {
+          return NO_WINS_MESSAGE;
+      }
   }
 
 }

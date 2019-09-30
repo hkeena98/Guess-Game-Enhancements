@@ -24,12 +24,16 @@ public class GuessGame {
    * components to read it; especially for unit testing.
    */
   public static final int UPPER_BOUND = 10;
+  public static final int UPPER_BOUND2 = 24;
+  
 
   /**
    * The number of guess attempts alloted. This is public so that other
    * components to read it; especially for unit testing.
    */
   public static final int NUM_OF_GUESSES = 3;
+  public static final int NUM_OF_GUESSES2 = 5;
+
 
   private static final Random RANDOM = new Random();
 
@@ -39,7 +43,10 @@ public class GuessGame {
 
   private final int numberToGuess;
   private GuessResult lastResult = null;
-  private int howManyGuessesLeft = NUM_OF_GUESSES;
+  private int howManyGuessesLeft;
+  private int difficulty_marker;
+  private int game_bound;
+
 
   //
   // Constructors
@@ -54,9 +61,28 @@ public class GuessGame {
    * @throws IllegalArgumentException
    *    when the {@code numberToGuess} is out of range
    */
-  public GuessGame(final int numberToGuess) {
+  public GuessGame(final int difficult) {
+    int bound = 0;
+    difficulty_marker = difficult;
+    if(difficult == 1)
+    {
+      bound = UPPER_BOUND;
+      howManyGuessesLeft = NUM_OF_GUESSES;
+    }
+    else if(difficult == 2)
+    {
+      bound = UPPER_BOUND2;
+      howManyGuessesLeft = NUM_OF_GUESSES2;
+    }
+    else
+    {
+      bound = UPPER_BOUND2;
+      howManyGuessesLeft = NUM_OF_GUESSES;
+    }
+    final int numberToGuess = RANDOM.nextInt(bound);
+    game_bound = bound;
     // validate arguments
-    if (numberToGuess < 0 || numberToGuess >= UPPER_BOUND) {
+    if (numberToGuess < 0 || numberToGuess >= bound) {
       throw new IllegalArgumentException("numberToGuess is out of range");
     }
     //
@@ -68,9 +94,9 @@ public class GuessGame {
    * Create a guessing game with a random number.
    *
    */
-  public GuessGame() {
-    this(RANDOM.nextInt(UPPER_BOUND));
-  }
+  //public GuessGame() {
+  //   this(RANDOM.nextInt(UPPER_BOUND));
+  //}
 
   //
   // Public methods
@@ -83,7 +109,16 @@ public class GuessGame {
    * @return true if no guesses have been made, otherwise, false
    */
   public synchronized boolean isGameBeginning() {
-    return howManyGuessesLeft == NUM_OF_GUESSES;
+    int guesses;
+    if(difficulty_marker != 2)
+    {
+      guesses = NUM_OF_GUESSES;
+    }
+    else
+    {
+      guesses = NUM_OF_GUESSES2;
+    }
+    return howManyGuessesLeft == guesses;
   }
 
   /**
@@ -96,7 +131,16 @@ public class GuessGame {
    * @return true if the guess falls within the game bounds, otherwise, false
    */
   public boolean isValidGuess(int guess) {
-    return guess >= 0 && guess < UPPER_BOUND;
+    int bound;
+    if(difficulty_marker == 1)
+    {
+      bound = UPPER_BOUND;
+    }
+    else
+    {
+      bound = UPPER_BOUND2;
+    }
+    return guess >= 0 && guess < bound;
   }
 
   /**
@@ -113,7 +157,16 @@ public class GuessGame {
   public synchronized GuessResult makeGuess(final int myGuess) {
     final GuessResult thisResult;
     // validate arguments
-    if (myGuess < 0 || myGuess >= UPPER_BOUND) {
+    int bound;
+    if(difficulty_marker == 1)
+    {
+      bound = UPPER_BOUND;
+    }
+    else
+    {
+      bound = UPPER_BOUND2;
+    }
+    if (myGuess < 0 || myGuess >= bound) {
       thisResult = GuessResult.INVALID;
     } else {
       // assert that the game isn't over
@@ -174,6 +227,21 @@ public class GuessGame {
    */
   public synchronized int guessesLeft() {
     return howManyGuessesLeft;
+  }
+
+  public synchronized int gameDifficulty()
+  {
+    return difficulty_marker;
+  }
+
+  public synchronized int gameBound()
+  {
+    return game_bound;
+  }
+
+  public synchronized void setDifficulty(int diff)
+  {
+    difficulty_marker = diff;
   }
 
   /**

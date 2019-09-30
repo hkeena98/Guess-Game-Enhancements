@@ -117,6 +117,7 @@ public class PostGuessRoute implements Route {
     if(playerServices != null) {
       vm.put(GetGameRoute.GAME_BEGINS_ATTR, playerServices.isStartingGame());
       vm.put(GetGameRoute.GUESSES_LEFT_ATTR, playerServices.guessesLeft());
+      vm.put(GetGameRoute.GAME_BOUND_ATTR, playerServices.gameBound());
 
       // retrieve request parameter
       final String guessStr = request.queryParams(GUESS_PARAM);
@@ -159,7 +160,6 @@ public class PostGuessRoute implements Route {
           // All the GuessResult values are in case statements so we should never get here.
           throw new NoSuchElementException("Invalid result of guess received.");
       }
-
       return templateEngine.render(mv);
     }
     else {
@@ -193,6 +193,7 @@ public class PostGuessRoute implements Route {
     // report application-wide game statistics
     vm.put(GetHomeRoute.GAME_STATS_MSG_ATTR, gameCenter.getGameStatsMessage());
     vm.put(YOU_WON_ATTR, youWonLost);
+    vm.put(GetHomeRoute.SESSION_STATS_MSG_ATTR,gameCenter.getPlayerServices().getSessionStatsMessage());
     return new ModelAndView(vm, GetHomeRoute.VIEW_NAME);
   }
 }
