@@ -16,22 +16,43 @@
         ${sessionStatsMessage}
       </p>
 
+
+
       <#if newPlayer>
-        <p>
-          <a href="/game">Want to play a game?!?</a>
-        </p>
+      <p>
+          <!--<a href="/game">Want to play a game?!?</a>-->
+          <form id="difficultyform" style="text-align:left" action="/game" method="GET">
+            <input type="radio" name="dif" id="1" value="1" required> Standard
+            <input type="radio" name="dif" id="2" value="2"> Moderate
+            <input type="radio" name="dif" id="3" value="3"> Difficult
+            <button type="submit">Ok</button>
+          </form>
+          
+      </p>
       <#else>
         <#if youWon>
           <p>
             Congratulations!  You must have read my mind.
             <br/><br/>
-            <a href="/game">Do it again</a>
+            <!--<a href="/game">Do it again</a>-->
+            <form id="difficultyform" style="text-align:left" action="/game" method="GET">
+              <input type="radio" name="dif" id="1" value="1" required> Standard
+              <input type="radio" name="dif" id="2" value="2"> Moderate
+              <input type="radio" name="dif" id="3" value="3"> Difficult
+              <button type="submit">Ok</button>
+            </form>
           </p>
         <#else>
           <p>
             Aww, too bad.  Better luck next time.
             <br/><br/>
-            <a href="/game">How about it?</a>
+            <!--<a href="/game">How about it?</a>-->
+            <form id="difficultyform" style="text-align:left" action="/game" method="GET">
+              <input type="radio" name="dif" id="1" value="1" required> Standard
+              <input type="radio" name="dif" id="2" value="2"> Moderate
+              <input type="radio" name="dif" id="3" value="3"> Difficult
+              <button type="submit">Ok</button>
+            </form>
           </p>
         </#if>
       </#if>

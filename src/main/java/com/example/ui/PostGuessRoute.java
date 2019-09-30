@@ -117,6 +117,7 @@ public class PostGuessRoute implements Route {
     if(playerServices != null) {
       vm.put(GetGameRoute.GAME_BEGINS_ATTR, playerServices.isStartingGame());
       vm.put(GetGameRoute.GUESSES_LEFT_ATTR, playerServices.guessesLeft());
+      vm.put(GetGameRoute.GAME_BOUND_ATTR, playerServices.gameBound());
 
       // retrieve request parameter
       final String guessStr = request.queryParams(GUESS_PARAM);

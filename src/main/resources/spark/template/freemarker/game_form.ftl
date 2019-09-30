@@ -9,13 +9,18 @@
 
     <div class="body">
       <h4>Make <#if isFirstGuess>a<#else>Another</#if> Guess</h4>
-      
+
+
       <#if message??>
       <div class="message ${messageType}">${message}</div>
       </#if>
+
+      <script>
+      
+      </script>
       
       <form action="./guess" method="POST">
-        Guess a number between 0 and 9. You have ${guessesLeft} guess<#if
+        Guess a number between 0 and ${gameBound}. You have ${guessesLeft} guess<#if
 guessesLeft gt 1>es</#if> left.
         <br/>
         <input name="myGuess" />
@@ -25,4 +30,5 @@ guessesLeft gt 1>es</#if> left.
     </div>
 
 </body>
+
 </html>

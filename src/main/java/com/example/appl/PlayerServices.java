@@ -49,9 +49,9 @@ public class PlayerServices {
    * @return GuessGame
    *    the current game being played
    */
-  public synchronized GuessGame currentGame() {
+  public synchronized GuessGame currentGame(int x) {
     if(game == null) {
-      game = gameCenter.getGame();
+      game = gameCenter.getGame(x);
     }
     return game;
   }
@@ -117,6 +117,21 @@ public class PlayerServices {
     return game.guessesLeft();
   }
 
+  public int gameDifficulty()
+  {
+    return game.gameDifficulty();
+  }
+
+  public int gameBound()
+  {
+    return game.gameBound();
+  }
+
+
+  public void setGame(int x)
+  {
+    game = new GuessGame(x);
+  }
 
   public synchronized String getSessionStatsMessage() {
       if (playerSessionGamesWon > 0) {

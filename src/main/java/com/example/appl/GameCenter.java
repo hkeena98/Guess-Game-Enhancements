@@ -65,8 +65,8 @@ public class GameCenter {
    * @return
    *   A new {@link GuessGame}
    */
-  public GuessGame getGame() {
-    return new GuessGame();
+  public GuessGame getGame(int x) {
+    return new GuessGame(x);
   }
 
   /**
