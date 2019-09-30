@@ -150,6 +150,11 @@ public class GuessGame {
     return GuessResult.WON.equals(lastResult) || GuessResult.LOST.equals(lastResult);
   }
 
+  /**
+   * Queries whether or not the game was won
+   *
+   * @return: true if the game was won
+   */
   public synchronized boolean isWon(){
     return GuessResult.WON.equals(lastResult);
   }

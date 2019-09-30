@@ -72,6 +72,9 @@ public class GameCenter {
     }
   }
 
+  /**
+   * Collects sitewide data if a game was won.
+   */
   public void gameWon() {
     synchronized (this){
       gamesWon++;
@@ -86,6 +89,7 @@ public class GameCenter {
    */
   public synchronized String getGameStatsMessage() {
     if (totalGames > 1) {
+      //Calculates percent games won before returning message
       float gameWon = (float)gamesWon;
       float total  = (float)totalGames;
       float percent = gameWon/total;
